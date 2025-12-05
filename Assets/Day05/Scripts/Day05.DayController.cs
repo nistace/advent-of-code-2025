@@ -42,7 +42,11 @@ namespace Day05
 
       protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
       {
-         return await UniTask.FromResult("");
+         ReadInput(out var freshRanges, out _);
+
+         var result = freshRanges.Sum(t => t.Size);
+
+         return await UniTask.FromResult($"{result}");
       }
    }
 }

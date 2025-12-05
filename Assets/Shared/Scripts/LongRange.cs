@@ -8,6 +8,8 @@ namespace Shared
    {
       private long Min { get; }
       private long Max { get; }
+      // Returns the differences between min and max, bounds included
+      public long Size => Max - Min + 1;
 
       public LongRange(long min, long max)
       {
