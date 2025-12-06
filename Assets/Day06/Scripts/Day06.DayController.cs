@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 
 namespace Day06
 {
@@ -9,7 +7,7 @@ namespace Day06
    {
       protected override int DayNumber => 6;
 
-      protected override async UniTask<string> SolvePart1(CancellationToken cancellationToken)
+      protected override string SolvePart1()
       {
          var splitLines = ReadInputLines().Select(t => t.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToArray();
          var operators = splitLines[^1];
@@ -22,10 +20,10 @@ namespace Day06
          var sum = operations.Where(t => t.@operator == '+').Sum(t => t.operands.Sum()) +
                    operations.Where(t => t.@operator == '*').Sum(t => t.operands.Aggregate(1L, (current, other) => current * other));
 
-         return await UniTask.FromResult($"{sum}");
+         return $"{sum}";
       }
 
-      protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
+      protected override string SolvePart2()
       {
          var operandsLines = ReadInputLines().Select(t => t).ToArray();
          var operatorsLine = operandsLines[^1];
@@ -62,7 +60,7 @@ namespace Day06
 
          sum += operationBuffer;
 
-         return await UniTask.FromResult($"{sum}");
+         return $"{sum}";
       }
    }
 }

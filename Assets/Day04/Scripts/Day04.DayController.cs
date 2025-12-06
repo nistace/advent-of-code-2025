@@ -19,15 +19,15 @@ namespace Day04
          .Select(t => t.coordinates)
          .ToHashSet();
 
-      protected override async UniTask<string> SolvePart1(CancellationToken cancellationToken)
+      protected override string SolvePart1()
       {
          var allRollsCoordinates = ReadInputCoordinatesHashSet();
          var result = allRollsCoordinates.Count(cell => _directions.Count(offset => allRollsCoordinates.Contains(cell + offset)) <= MAX_NEIGHBOURS);
 
-         return await UniTask.FromResult($"{result}");
+         return $"{result}";
       }
 
-      protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
+      protected override string SolvePart2()
       {
          var remainingRollsCoordinates = ReadInputCoordinatesHashSet();
 
@@ -40,7 +40,7 @@ namespace Day04
             removedInTotal += removedLastTime;
          } while (removedLastTime > 0);
 
-         return await UniTask.FromResult($"{removedInTotal}");
+         return $"{removedInTotal}";
       }
    }
 }

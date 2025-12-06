@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using Shared;
 
 namespace Day05
@@ -31,22 +29,22 @@ namespace Day05
          values = inputLines.Skip(inputFreshRanges.Length + 1).ToArray().Select(long.Parse).ToArray();
       }
 
-      protected override async UniTask<string> SolvePart1(CancellationToken cancellationToken)
+      protected override string SolvePart1()
       {
          ReadInput(out var freshRanges, out var ingredients);
 
          var result = ingredients.Count(ingredient => freshRanges.Any(range => range.Contains(ingredient)));
 
-         return await UniTask.FromResult($"{result}");
+         return $"{result}";
       }
 
-      protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
+      protected override string SolvePart2()
       {
          ReadInput(out var freshRanges, out _);
 
          var result = freshRanges.Sum(t => t.Size);
 
-         return await UniTask.FromResult($"{result}");
+         return $"{result}";
       }
    }
 }

@@ -10,7 +10,7 @@ namespace Day02
    {
       protected override int DayNumber => 2;
 
-      protected override async UniTask<string> SolvePart1(CancellationToken cancellationToken)
+      protected override string SolvePart1()
       {
          var ranges = ReadInputText().Split(",").Select(t => t.Trim()).Select(t => t.Split("-")).Select(t => (min: t[0], max: t[1])).ToArray();
 
@@ -38,10 +38,10 @@ namespace Day02
             }
          }
 
-         return await UniTask.FromResult($"{invalidIDs.Sum()}");
+         return $"{invalidIDs.Sum()}";
       }
 
-      protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
+      protected override string SolvePart2()
       {
          var ranges = ReadInputText().Split(",").Select(t => t.Trim()).Select(t => t.Split("-")).Select(t => (min: t[0], max: t[1])).ToArray();
 
@@ -61,7 +61,7 @@ namespace Day02
             }
          }
 
-         return await UniTask.FromResult($"{invalidIDs.Sum()}");
+         return $"{invalidIDs.Sum()}";
       }
 
       private static bool CheckNumberWithAnySequenceSize(string numberAsString)

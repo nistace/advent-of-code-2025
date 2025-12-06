@@ -7,23 +7,28 @@ namespace Shared
 {
    public class MenuUi : MonoBehaviour
    {
-      [SerializeField] private GameObject _buttonPrefab;
+      [SerializeField] private DayItemUi _buttonPrefab;
       [SerializeField] private Transform _buttonsContainer;
+      [SerializeField] private Button _solveAllButton;
 
-      public UnityEvent<(int day, int part)> OnButtonClicked { get; } = new();
+      public UnityEvent<(int day, int part)> OnSolveDayPartClicked { get; } = new();
+      public UnityEvent<(int day, int part)> OnSimulateDayPartClicked { get; } = new();
+      public UnityEvent OnSolveAllClicked => _solveAllButton.onClick;
 
       private void Start()
       {
          for (var day = 1; day <= 12; ++day)
          {
-            for (var part = 1; part <= 2; ++part)
-            {
-               var button = Instantiate(_buttonPrefab, _buttonsContainer);
-               button.GetComponentInChildren<TMP_Text>().text = $"Day {day} Part {part}";
+            var dayItemUi = Instantiate(_buttonPrefab, _buttonsContainer);
+            dayItemUi.SetUp(day);
 
-               var eventData = (day, part);
-               button.GetComponentInChildren<Button>().onClick.AddListener(() => OnButtonClicked.Invoke(eventData));
-            }
+            var part1Data = (day, 1);
+            dayItemUi.OnSolvePart1Clicked.AddListener(() => OnSolveDayPartClicked.Invoke(part1Data));
+            dayItemUi.OnSimulatePart1Clicked.AddListener(() => OnSimulateDayPartClicked.Invoke(part1Data));
+
+            var part2Data = (day, 2);
+            dayItemUi.OnSolvePart2Clicked.AddListener(() => OnSolveDayPartClicked.Invoke(part2Data));
+            dayItemUi.OnSimulatePart2Clicked.AddListener(() => OnSimulateDayPartClicked.Invoke(part2Data));
          }
       }
    }

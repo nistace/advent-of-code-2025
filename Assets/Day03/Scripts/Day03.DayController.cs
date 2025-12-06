@@ -9,7 +9,7 @@ namespace Day03
    {
       protected override int DayNumber => 3;
 
-      protected override async UniTask<string> SolvePart1(CancellationToken cancellationToken)
+      protected override string SolvePart1()
       {
          var lines = ReadInputLines();
 
@@ -38,10 +38,10 @@ namespace Day03
             sum += int.Parse($"{line[firstIndex]}{line[secondIndex]}");
          }
 
-         return await UniTask.FromResult($"{sum}");
+         return $"{sum}";
       }
 
-      protected override async UniTask<string> SolvePart2(CancellationToken cancellationToken)
+      protected override string SolvePart2()
       {
          const int batteriesCount = 12;
          var lines = ReadInputLines();
@@ -69,7 +69,7 @@ namespace Day03
             sum += long.Parse($"{digitAsString}");
          }
 
-         return await UniTask.FromResult($"{sum}");
+         return $"{sum}";
       }
    }
 }
