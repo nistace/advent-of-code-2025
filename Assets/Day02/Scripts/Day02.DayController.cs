@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Cysharp.Threading.Tasks;
-using Shared;
 
 namespace Day02
 {
@@ -45,7 +42,7 @@ namespace Day02
       {
          var ranges = ReadInputText().Split(",").Select(t => t.Trim()).Select(t => t.Split("-")).Select(t => (min: t[0], max: t[1])).ToArray();
 
-         var invalidIDs = new HashSet<long>();
+         var sum = 0L;
 
          foreach (var range in ranges)
          {
@@ -54,50 +51,45 @@ namespace Day02
 
             for (var number = min; number <= max; number++)
             {
-               if (CheckNumberWithAnySequenceSize($"{number}"))
+               if (CheckNumberWithAnySequenceSize(number))
                {
-                  invalidIDs.Add(number);
+                  sum += number;
                }
             }
          }
 
-         return $"{invalidIDs.Sum()}";
+         return $"{sum}";
       }
 
-      private static bool CheckNumberWithAnySequenceSize(string numberAsString)
+      private static bool CheckNumberWithAnySequenceSize(long number)
       {
-         if (numberAsString.Length < 2)
+         var tryAgain = true;
+         for (var modulo = 10L; tryAgain; modulo *= 10)
          {
-            return false;
-         }
+            var sequence = number % modulo;
+            if (sequence == 0)
+            {
+               continue;
+            }
 
-         for (var sequenceSize = 1; sequenceSize <= numberAsString.Length / 2; sequenceSize++)
-         {
-            if (CheckNumberWithSequenceSize(numberAsString, sequenceSize))
+            var minValue = modulo * modulo / 10;
+            var recomposedNumber = sequence * modulo + sequence;
+
+            tryAgain = recomposedNumber < number;
+
+            while (recomposedNumber < number)
+            {
+               minValue *= modulo;
+               recomposedNumber = recomposedNumber * modulo + sequence;
+            }
+
+            if (number >= minValue && recomposedNumber == number)
             {
                return true;
             }
          }
 
          return false;
-      }
-
-      private static bool CheckNumberWithSequenceSize(string numberAsString, int sequenceSize)
-      {
-         if (numberAsString.Length % sequenceSize != 0)
-         {
-            return false;
-         }
-
-         for (var charIndex = 0; charIndex + sequenceSize < numberAsString.Length; charIndex++)
-         {
-            if (numberAsString[charIndex + sequenceSize] != numberAsString[charIndex])
-            {
-               return false;
-            }
-         }
-
-         return true;
       }
    }
 }
