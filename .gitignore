@@ -4,6 +4,7 @@
 /obj/
 /Logs/
 /UserSettings/
+/Builds/
 
 *.csproj
 *.sln

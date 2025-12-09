@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Shared
 {
@@ -12,8 +12,11 @@ namespace Shared
       protected abstract int DayNumber { get; }
       private GameObject DayPrefab { get; set; }
 
+
       public string Solve(int part, out double totalMilliseconds)
       {
+         SharedUi.SetSimulation(false);
+
          var stopwatch = Stopwatch.StartNew();
          SharedUi.SetStopwatch(stopwatch);
 
@@ -26,7 +29,7 @@ namespace Shared
 
          stopwatch.Stop();
          totalMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
-         Debug.Log($"Solved Day {DayNumber} Part {part}: {result}\n{totalMilliseconds:0}ms");
+         SharedUi.SetOutput(result);
 
          if (DayPrefab)
          {
@@ -38,8 +41,11 @@ namespace Shared
 
       public async UniTask<(string result, double ms)> Simulate(int part, CancellationToken cancellationToken)
       {
+         SharedUi.SetSimulation(true);
+
          var stopwatch = Stopwatch.StartNew();
          SharedUi.SetStopwatch(stopwatch);
+         SharedUi.StartSimulation();
 
          var result = await (part switch
          {
@@ -49,8 +55,10 @@ namespace Shared
          });
 
          stopwatch.Stop();
+         SharedUi.StopSimulation();
+         SharedUi.SetOutput(result);
+
          var ms = stopwatch.Elapsed.TotalMilliseconds;
-         Debug.Log($"Simulated Day {DayNumber} Part {part}: {result}\n{ms:0}ms");
 
          if (DayPrefab)
          {

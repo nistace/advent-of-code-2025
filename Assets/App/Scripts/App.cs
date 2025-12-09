@@ -11,6 +11,8 @@ namespace Shared
 
       private void Start()
       {
+         SharedUi.SetSimulation(false);
+         SharedUi.SetTimeScale(0);
          _menuUi.OnSolveAllClicked.AddListener(HandleSolveAllClicked);
          _menuUi.OnSolveDayPartClicked.AddListener(HandleSolveButtonClicked);
          _menuUi.OnSimulateDayPartClicked.AddListener(HandleSimulateButtonClicked);
@@ -63,6 +65,7 @@ namespace Shared
       private async UniTask<(string result, double ms)> Simulate(int day, int part)
       {
          SharedUi.SetDayAndPart(day, part);
+         SharedUi.SetTimeScale(1);
          _menuUi.gameObject.SetActive(false);
 
          var result = string.Empty;
@@ -78,6 +81,7 @@ namespace Shared
          }
 
          _menuUi.gameObject.SetActive(true);
+         SharedUi.SetTimeScale(0);
 
          return (result, ms);
       }
